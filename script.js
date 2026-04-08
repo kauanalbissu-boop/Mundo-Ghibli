@@ -27,14 +27,14 @@ const movies = [
 ];
 
 let currentOffset = 0;
-const cardWidth = 270 + 28; // largura + gap
+const cardWidth = 275 + 30; // largura do card + gap
 
 function renderMovies(filteredMovies) {
     const track = document.getElementById('carousel-track');
     track.innerHTML = '';
 
     if (filteredMovies.length === 0) {
-        track.innerHTML = `<div style="width:100%; padding:80px 20px; text-align:center; color:#747572;">Nenhum filme encontrado.</div>`;
+        track.innerHTML = `<div style="width:100%; padding:100px 20px; text-align:center; color:#747572; font-size:18px;">Nenhum filme encontrado.</div>`;
         return;
     }
 
@@ -104,23 +104,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     enableDrag();
 
-    // Botão Mais Famosos
-    const famosos = ["A Viagem de Chihiro", "Meu Amigo Totoro", "Princesa Mononoke", "O Castelo Animado", "Ponyo"];
-    document.getElementById('btn-famosos').addEventListener('click', () => {
-        const filtered = movies.filter(m => famosos.includes(m.title));
-        renderMovies(filtered);
-        currentOffset = 0;
-        document.getElementById('carousel-track').style.transform = 'translateX(0)';
-    });
-
-    // Modal
-    const modal = document.getElementById('modal-historia');
-    document.getElementById('btn-historia').addEventListener('click', () => modal.classList.add('active'));
-    document.getElementById('modal-close').addEventListener('click', () => modal.classList.remove('active'));
-    modal.addEventListener('click', e => {
-        if (e.target === modal) modal.classList.remove('active');
-    });
-
     // Busca
     const searchBar = document.getElementById('search-bar');
     const searchInput = document.getElementById('search-input');
@@ -134,6 +117,8 @@ document.addEventListener('DOMContentLoaded', () => {
         searchBar.classList.remove('active');
         searchInput.value = '';
         renderMovies(movies);
+        currentOffset = 0;
+        document.getElementById('carousel-track').style.transform = 'translateX(0)';
     });
 
     searchInput.addEventListener('input', () => {
@@ -142,9 +127,13 @@ document.addEventListener('DOMContentLoaded', () => {
             renderMovies(movies);
             return;
         }
+
         const filtered = movies.filter(movie => 
-            movie.title.toLowerCase().includes(term)
+            movie.title.toLowerCase().includes(term) || 
+            movie.desc.toLowerCase().includes(term)
         );
         renderMovies(filtered);
+        currentOffset = 0;
+        document.getElementById('carousel-track').style.transform = 'translateX(0)';
     });
 });
