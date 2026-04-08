@@ -27,14 +27,14 @@ const movies = [
 ];
 
 let currentOffset = 0;
-const cardWidth = 270 + 28; // largura + gap
+const cardWidth = 275 + 30;
 
 function renderMovies(filteredMovies) {
     const track = document.getElementById('carousel-track');
     track.innerHTML = '';
 
     if (filteredMovies.length === 0) {
-        track.innerHTML = `<div style="width:100%; padding:80px 20px; text-align:center; color:#747572;">Nenhum filme encontrado.</div>`;
+        track.innerHTML = `<div style="width:100%; padding:100px 20px; text-align:center; color:#747572; font-size:18px;">Nenhum filme encontrado.</div>`;
         return;
     }
 
@@ -67,7 +67,96 @@ function moveCarousel(direction) {
     track.style.transform = `translateX(-${currentOffset}px)`;
 }
 
-function enableDrag() {
+function setupSearch() {
+    const searchBtn = document.getElementById('btn-search');
+    const overlay = document.getElementById('search-overlay');
+    const input = document.getElementById('search-input');
+    const resultsContainer = document.getElementById('search-results');
+    const closeBtn = document.getElementById('btn-close-search');
+
+    searchBtn.addEventListener('click', () => {
+        overlay.classList.add('active');
+        input.focus();
+    });
+
+    function closeSearch() {
+        overlay.classList.remove('active');
+        input.value = '';
+        resultsContainer.innerHTML = '';
+        resultsContainer.classList.remove('active');
+    }
+
+    closeBtn.addEventListener('click', closeSearch);
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === "Escape" && overlay.classList.contains('active')) {
+            closeSearch();
+        }
+    });
+
+    input.addEventListener('input', () => {
+        const term = input.value.toLowerCase().trim();
+        
+        if (!term) {
+            resultsContainer.innerHTML = '';
+            resultsContainer.classList.remove('active');
+            return;
+        }
+
+        const filtered = movies.filter(movie => 
+            movie.title.toLowerCase().includes(term) || 
+            movie.desc.toLowerCase().includes(term)
+        );
+
+        if (filtered.length === 0) {
+            resultsContainer.innerHTML = `<div class="no-results">Nenhum filme encontrado para "<strong>${term}</strong>"</div>`;
+            resultsContainer.classList.add('active');
+            return;
+        }
+
+        let html = '';
+        filtered.forEach(movie => {
+            html += `
+                <div class="search-result-item" data-title="${movie.title}">
+                    <img src="${movie.img}" alt="${movie.title}">
+                    <div class="search-result-info">
+                        <h4>${movie.title}</h4>
+                        <span class="year">${movie.year}</span>
+                        <p>${movie.desc}</p>
+                    </div>
+                </div>
+            `;
+        });
+
+        resultsContainer.innerHTML = html;
+        resultsContainer.classList.add('active');
+    });
+}
+
+function setupScrollTop() {
+    const btnTop = document.getElementById('btn-top');
+
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 600) {
+            btnTop.style.display = 'flex';
+        } else {
+            btnTop.style.display = 'none';
+        }
+    });
+
+    btnTop.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+}
+
+// Inicialização
+document.addEventListener('DOMContentLoaded', () => {
+    renderMovies(movies);
+
+    document.getElementById('btn-next').addEventListener('click', () => moveCarousel('next'));
+    document.getElementById('btn-prev').addEventListener('click', () => moveCarousel('prev'));
+
+    // Drag do carrossel
     const viewport = document.getElementById('carousel-viewport');
     const track = document.getElementById('carousel-track');
     let isDragging = false;
@@ -93,58 +182,12 @@ function enableDrag() {
         currentOffset = Math.max(0, Math.min(scrollLeft - walk, track.scrollWidth - viewport.clientWidth));
         track.style.transform = `translateX(-${currentOffset}px)`;
     });
-}
 
-// Inicialização
-document.addEventListener('DOMContentLoaded', () => {
-    renderMovies(movies);
+    setupSearch();
+    setupScrollTop();
 
-    document.getElementById('btn-next').addEventListener('click', () => moveCarousel('next'));
-    document.getElementById('btn-prev').addEventListener('click', () => moveCarousel('prev'));
-
-    enableDrag();
-
-    // Botão Mais Famosos
-    const famosos = ["A Viagem de Chihiro", "Meu Amigo Totoro", "Princesa Mononoke", "O Castelo Animado", "Ponyo"];
-    document.getElementById('btn-famosos').addEventListener('click', () => {
-        const filtered = movies.filter(m => famosos.includes(m.title));
-        renderMovies(filtered);
-        currentOffset = 0;
-        document.getElementById('carousel-track').style.transform = 'translateX(0)';
-    });
-
-    // Modal
-    const modal = document.getElementById('modal-historia');
-    document.getElementById('btn-historia').addEventListener('click', () => modal.classList.add('active'));
-    document.getElementById('modal-close').addEventListener('click', () => modal.classList.remove('active'));
-    modal.addEventListener('click', e => {
-        if (e.target === modal) modal.classList.remove('active');
-    });
-
-    // Busca
-    const searchBar = document.getElementById('search-bar');
-    const searchInput = document.getElementById('search-input');
-
-    document.getElementById('btn-search').addEventListener('click', () => {
-        searchBar.classList.add('active');
-        searchInput.focus();
-    });
-
-    document.getElementById('btn-close-search').addEventListener('click', () => {
-        searchBar.classList.remove('active');
-        searchInput.value = '';
-        renderMovies(movies);
-    });
-
-    searchInput.addEventListener('input', () => {
-        const term = searchInput.value.toLowerCase().trim();
-        if (!term) {
-            renderMovies(movies);
-            return;
-        }
-        const filtered = movies.filter(movie => 
-            movie.title.toLowerCase().includes(term)
-        );
-        renderMovies(filtered);
+    // Botão A História
+    document.getElementById('btn-historia').addEventListener('click', () => {
+        document.getElementById('historia').scrollIntoView({ behavior: 'smooth' });
     });
 });
