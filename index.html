@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mundo Ghibli</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <h1>Mundo Ghibli</h1>
+            </div>
+
+            <div class="nav-buttons">
+                <button id="btn-search" class="nav-btn">Pesquisar</button>
+                <button id="btn-famosos" class="nav-btn">Mais Famosos</button>
+                <button id="btn-historia" class="nav-btn">História do Studio</button>
+            </div>
+
+            <div id="search-bar" class="search-bar">
+                <input type="text" id="search-input" placeholder="Buscar filme por título...">
+                <button id="btn-close-search">✕</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <header class="hero">
+        <div class="hero-content">
+            <h1>Bem-vindo ao mundo onde o vento conta histórias</h1>
+            <p>24 obras-primas de Hayao Miyazaki e do Studio Ghibli</p>
+        </div>
+    </header>
+
+    <!-- SEÇÃO DE FILMES -->
+    <section class="filmes-section">
+        <div class="section-header">
+            <h2>Todos os Filmes do Studio Ghibli</h2>
+            <p>Uma jornada mágica através de 24 animações inesquecíveis</p>
+        </div>
+
+        <div class="carousel-wrapper">
+            <button id="btn-prev" class="carousel-arrow" aria-label="Anterior">‹</button>
+            
+            <div id="carousel-viewport" class="carousel-viewport">
+                <div id="carousel-track" class="carousel-track"></div>
+            </div>
+            
+            <button id="btn-next" class="carousel-arrow" aria-label="Próximo">›</button>
+        </div>
+    </section>
+
+    <!-- MODAL HISTÓRIA -->
+    <div id="modal-historia" class="modal">
+        <div class="modal-content">
+            <button id="modal-close" class="modal-close">✕</button>
+            <h2>A História do Studio Ghibli</h2>
+            <div class="modal-body">
+                <p>O Studio Ghibli foi fundado em 1985 por Hayao Miyazaki, Isao Takahata e Toshio Suzuki. O nome "Ghibli" vem de um avião italiano, simbolizando vento, leveza e liberdade.</p>
+                <p>Conhecido pela qualidade artesanal de suas animações e por temas profundos como respeito à natureza, amizade, crescimento pessoal e pacifismo, o estúdio conquistou o mundo com obras como <strong>A Viagem de Chihiro</strong> (Oscar de Melhor Animação), <strong>Meu Amigo Totoro</strong> e <strong>Princesa Mononoke</strong>.</p>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>© 2026 Mundo Ghibli • Inspirado nas obras do Studio Ghibli • Feito com ❤️</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
