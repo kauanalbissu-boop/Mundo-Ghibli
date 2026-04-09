@@ -1,2 +1,2 @@
-# Mundo-Ghibli V1.0
+# Mundo-Ghibli V1.2
 Projeto pessoal para portifólio
