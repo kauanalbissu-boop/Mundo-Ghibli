@@ -1,4 +1,5 @@
-// script.js
+// script.js - Versão completa com redirecionamento para pasta "filmes"
+
 const movies = [
     { title: "Nausicaä do Vale do Vento", year: 1984, desc: "Uma jovem princesa luta para proteger seu vale de uma floresta tóxica em um mundo pós-apocalíptico.", img: "https://www.assistirfilme.com.br/wp-content/uploads/2025/06/nausicaa-do-vale-do-vento-poster.jpg" },
     { title: "O Castelo no Céu", year: 1986, desc: "Uma menina e um menino embarcam em uma jornada em busca de uma cidade flutuante lendária.", img: "https://images.justwatch.com/poster/265225789/s718/o-castelo-no-ceu.jpg" },
@@ -16,7 +17,7 @@ const movies = [
     { title: "O Reino dos Gatos", year: 2002, desc: "Uma garota é transformada em gata e vive grandes aventuras no reino felino.", img: "https://www.themoviedb.org/t/p/original/zCmU60poVbBhPdzIipgHNEDJuly.jpg" },
     { title: "O Castelo Animado", year: 2004, desc: "Uma jovem amaldiçoada encontra um castelo mágico e um misterioso mago.", img: "https://image.tmdb.org/t/p/w500/1hTfaEWktMJPxCk5nZNtK7F86C9.jpg" },
     { title: "Contos de Terramar", year: 2006, desc: "Um jovem mago busca restaurar o equilíbrio entre vida e morte.", img: "https://images.justwatch.com/poster/265223888/s718/contos-de-terramar.%7Bformat%7D" },
-    { title: "Ponyo", year: 2008, desc: "Uma peixinha mágica deseja se tornar humana e vive uma aventura com um menino.", img: "https://image.tmdb.org/t/p/original/lnXuAfcpWFbDxa4ZxObPIgDJAl2.jpg" },
+    { title: "Ponyo: Uma Amizade que Veio do Mar", year: 2008, desc: "Uma peixinha mágica deseja se tornar humana e vive uma aventura com um menino.", img: "https://image.tmdb.org/t/p/original/lnXuAfcpWFbDxa4ZxObPIgDJAl2.jpg" },
     { title: "O Mundo dos Pequeninos", year: 2010, desc: "Pequenos 'emprestadores' vivem grandes aventuras dentro de uma casa humana.", img: "https://image.tmdb.org/t/p/original/tEvLgolMKidszU2f2BDFN0H7cPX.jpg" },
     { title: "Da Colina Kokuriko", year: 2011, desc: "Estudantes lutam para salvar um clube escolar com vista para o mar.", img: "https://static.wikia.nocookie.net/dublagem/images/4/47/Kokuriko.jpg/revision/latest?cb=20210112183746&path-prefix=pt-br" },
     { title: "Vidas ao Vento", year: 2013, desc: "A inspiradora história real de um designer de aviões no Japão da guerra.", img: "https://emilaynerodrigues.github.io/ghibli-stories/assets/movies/12-vidas-ao-vento.jpg" },
@@ -27,20 +28,63 @@ const movies = [
 ];
 
 let currentOffset = 0;
-const cardWidth = 270 + 28; // largura + gap
+const cardWidth = 275 + 30;
+
+// Função para remover acentos e deixar tudo minúsculo
+function normalizeText(text) {
+    return text
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .trim();
+}
+
+// Converte título para nome do arquivo HTML (baseado na sua pasta "filmes")
+function getFileName(title) {
+    const map = {
+        "Nausicaä do Vale do Vento": "nausicaa.html",
+        "O Castelo no Céu": "castelo-no-ceu.html",
+        "Meu Amigo Totoro": "totoro.html",
+        "Túmulo dos Vagalumes": "tumulo-dos-vagalumes.html",
+        "O Serviço de Entregas da Kiki": "kiki.html",
+        "Memórias de Ontem": "memorias-de-ontem.html",
+        "Porco Rosso": "porco-rosso.html",
+        "Eu Posso Ouvir o Oceano": "eu-posso-ouvir-o-oceano.html",
+        "Pom Poko": "pom-poko.html",
+        "Sussurros do Coração": "sussurros-do-coracao.html",
+        "Princesa Mononoke": "princesa-mononoke.html",
+        "Meus Vizinhos, os Yamadas": "meus-vizinhos-yamadas.html",
+        "A Viagem de Chihiro": "viagem-de-chihiro.html",
+        "O Reino dos Gatos": "reino-dos-gatos.html",
+        "O Castelo Animado": "castelo-animado.html",
+        "Contos de Terramar": "contos-de-terramar.html",
+        "Ponyo: Uma Amizade que Veio do Mar": "pony.html",
+        "O Mundo dos Pequeninos": "mundo-dos-pequeninos.html",
+        "Da Colina Kokuriko": "da-colina-kokuriko.html",
+        "Vidas ao Vento": "vidas-ao-vento.html",
+        "O Conto da Princesa Kaguya": "conto-da-princesa-kaguya.html",
+        "As Memórias de Marnie": "memorias-de-marnie.html",
+        "Aya e a Bruxa": "aya-e-a-bruxa.html",
+        "O Menino e a Garça": "menino-e-a-garca.html"
+    };
+
+    return map[title] || normalizeText(title).replace(/\s+/g, '-') + ".html";
+}
 
 function renderMovies(filteredMovies) {
     const track = document.getElementById('carousel-track');
     track.innerHTML = '';
 
     if (filteredMovies.length === 0) {
-        track.innerHTML = `<div style="width:100%; padding:80px 20px; text-align:center; color:#747572;">Nenhum filme encontrado.</div>`;
+        track.innerHTML = `<div style="width:100%; padding:100px 20px; text-align:center; color:#747572; font-size:18px;">Nenhum filme encontrado.</div>`;
         return;
     }
 
     filteredMovies.forEach(movie => {
         const card = document.createElement('div');
         card.className = 'movie-card';
+        const fileName = getFileName(movie.title);
+
         card.innerHTML = `
             <img src="${movie.img}" alt="${movie.title}">
             <div class="card-content">
@@ -49,6 +93,12 @@ function renderMovies(filteredMovies) {
                 <p>${movie.desc}</p>
             </div>
         `;
+
+        card.style.cursor = 'pointer';
+        card.addEventListener('click', () => {
+            window.location.href = `filmes/${fileName}`;
+        });
+
         track.appendChild(card);
     });
 }
@@ -67,7 +117,105 @@ function moveCarousel(direction) {
     track.style.transform = `translateX(-${currentOffset}px)`;
 }
 
-function enableDrag() {
+function setupSearch() {
+    const searchBtn = document.getElementById('btn-search');
+    const overlay = document.getElementById('search-overlay');
+    const input = document.getElementById('search-input');
+    const resultsContainer = document.getElementById('search-results');
+    const closeBtn = document.getElementById('btn-close-search');
+
+    searchBtn.addEventListener('click', () => {
+        overlay.classList.add('active');
+        input.focus();
+    });
+
+    function closeSearch() {
+        overlay.classList.remove('active');
+        input.value = '';
+        resultsContainer.innerHTML = '';
+        resultsContainer.classList.remove('active');
+    }
+
+    closeBtn.addEventListener('click', closeSearch);
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === "Escape" && overlay.classList.contains('active')) {
+            closeSearch();
+        }
+    });
+
+    input.addEventListener('input', () => {
+        const term = normalizeText(input.value.trim());
+        
+        if (!term) {
+            resultsContainer.innerHTML = '';
+            resultsContainer.classList.remove('active');
+            return;
+        }
+
+        const filtered = movies.filter(movie => {
+            const titleNormalized = normalizeText(movie.title);
+            const descNormalized = normalizeText(movie.desc);
+            return titleNormalized.includes(term) || descNormalized.includes(term);
+        });
+
+        let html = '';
+        if (filtered.length === 0) {
+            html = `<div class="no-results">Nenhum filme encontrado para "<strong>${input.value}</strong>"</div>`;
+        } else {
+            filtered.forEach(movie => {
+                const fileName = getFileName(movie.title);
+                html += `
+                    <div class="search-result-item" data-filename="${fileName}">
+                        <img src="${movie.img}" alt="${movie.title}">
+                        <div class="search-result-info">
+                            <h4>${movie.title}</h4>
+                            <span class="year">${movie.year}</span>
+                            <p>${movie.desc}</p>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        resultsContainer.innerHTML = html;
+        resultsContainer.classList.add('active');
+
+        // Clique nos resultados da busca
+        resultsContainer.querySelectorAll('.search-result-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const fileName = item.getAttribute('data-filename');
+                window.location.href = `filmes/${fileName}`;
+                closeSearch();
+            });
+        });
+    });
+}
+
+function setupScrollTop() {
+    const btnTop = document.getElementById('btn-top');
+
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 600) {
+            btnTop.style.display = 'flex';
+        } else {
+            btnTop.style.display = 'none';
+        }
+    });
+
+    btnTop.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+}
+
+// Inicialização
+document.addEventListener('DOMContentLoaded', () => {
+    renderMovies(movies);
+
+    document.getElementById('btn-next').addEventListener('click', () => moveCarousel('next'));
+    document.getElementById('btn-prev').addEventListener('click', () => moveCarousel('prev'));
+
+    // Drag do carrossel
     const viewport = document.getElementById('carousel-viewport');
     const track = document.getElementById('carousel-track');
     let isDragging = false;
@@ -93,58 +241,11 @@ function enableDrag() {
         currentOffset = Math.max(0, Math.min(scrollLeft - walk, track.scrollWidth - viewport.clientWidth));
         track.style.transform = `translateX(-${currentOffset}px)`;
     });
-}
 
-// Inicialização
-document.addEventListener('DOMContentLoaded', () => {
-    renderMovies(movies);
+    setupSearch();
+    setupScrollTop();
 
-    document.getElementById('btn-next').addEventListener('click', () => moveCarousel('next'));
-    document.getElementById('btn-prev').addEventListener('click', () => moveCarousel('prev'));
-
-    enableDrag();
-
-    // Botão Mais Famosos
-    const famosos = ["A Viagem de Chihiro", "Meu Amigo Totoro", "Princesa Mononoke", "O Castelo Animado", "Ponyo"];
-    document.getElementById('btn-famosos').addEventListener('click', () => {
-        const filtered = movies.filter(m => famosos.includes(m.title));
-        renderMovies(filtered);
-        currentOffset = 0;
-        document.getElementById('carousel-track').style.transform = 'translateX(0)';
-    });
-
-    // Modal
-    const modal = document.getElementById('modal-historia');
-    document.getElementById('btn-historia').addEventListener('click', () => modal.classList.add('active'));
-    document.getElementById('modal-close').addEventListener('click', () => modal.classList.remove('active'));
-    modal.addEventListener('click', e => {
-        if (e.target === modal) modal.classList.remove('active');
-    });
-
-    // Busca
-    const searchBar = document.getElementById('search-bar');
-    const searchInput = document.getElementById('search-input');
-
-    document.getElementById('btn-search').addEventListener('click', () => {
-        searchBar.classList.add('active');
-        searchInput.focus();
-    });
-
-    document.getElementById('btn-close-search').addEventListener('click', () => {
-        searchBar.classList.remove('active');
-        searchInput.value = '';
-        renderMovies(movies);
-    });
-
-    searchInput.addEventListener('input', () => {
-        const term = searchInput.value.toLowerCase().trim();
-        if (!term) {
-            renderMovies(movies);
-            return;
-        }
-        const filtered = movies.filter(movie => 
-            movie.title.toLowerCase().includes(term)
-        );
-        renderMovies(filtered);
+    document.getElementById('btn-historia').addEventListener('click', () => {
+        document.getElementById('historia').scrollIntoView({ behavior: 'smooth' });
     });
 });
