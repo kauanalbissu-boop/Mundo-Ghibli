@@ -1,0 +1,185 @@
+<!DOCTYPE html> 
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Viagem de Chihiro - Mundo Ghibli</title>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Georgia&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css">
+    
+    <style>
+        .movie-detail {
+            max-width: 1280px;
+            margin: 120px auto 100px;
+            padding: 0 40px;
+            display: grid;
+            grid-template-columns: 420px 1fr;
+            gap: 80px;
+            align-items: start;
+        }
+        
+        .poster-container {
+            position: relative;
+        }
+        
+        .movie-poster {
+            width: 100%;
+            border-radius: 30px;
+            box-shadow: 0 30px 80px var(--shadow);
+            transition: transform 0.6s ease;
+        }
+        
+        .movie-poster:hover {
+            transform: scale(1.04);
+        }
+        
+        .imdb-badge {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            background: #f5c518;
+            color: #000;
+            font-weight: 700;
+            font-size: 26px;
+            padding: 10px 26px;
+            border-radius: 50px;
+            box-shadow: 0 10px 30px rgba(245, 197, 24, 0.45);
+            z-index: 2;
+        }
+        
+        .movie-info h1 {
+            font-size: clamp(48px, 7vw, 72px);
+            line-height: 1.1;
+            margin-bottom: 15px;
+            color: var(--text-dark);
+        }
+        
+        .movie-year-director {
+            font-size: 24px;
+            color: var(--accent);
+            margin-bottom: 35px;
+            font-weight: 700;
+        }
+        
+        .movie-desc {
+            font-size: 19.5px;
+            line-height: 1.82;
+            color: var(--text-light);
+            text-align: justify;
+        }
+        
+        .back-btn {
+            margin-top: 50px;
+            padding: 16px 42px;
+            background: var(--lilac);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .back-btn:hover {
+            background: var(--accent);
+            transform: translateY(-5px);
+        }
+
+        @media (max-width: 968px) {
+            .movie-detail {
+                grid-template-columns: 1fr;
+                gap: 60px;
+            }
+            .movie-poster {
+                max-width: 420px;
+                margin: 0 auto;
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <img src="../1.png" alt="Logo Studio Ghibli" class="logo-icon">
+                <h1>Mundo Ghibli</h1>
+            </div>
+            <div class="nav-buttons">
+                <button onclick="window.location.href='../index.html'" class="nav-btn">Todos os Filmes</button>
+                <button onclick="window.location.href='../index.html#historia'" class="nav-btn">A História</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="movie-detail">
+        <div class="poster-container">
+            <img src="https://images.justwatch.com/poster/265231008/s332/a-viagem-de-chihiro" 
+                 alt="A Viagem de Chihiro" 
+                 class="movie-poster">
+            <div class="imdb-badge">IMDb <span>8.6</span></div>
+        </div>
+        
+        <div class="movie-info">
+            <h1>A Viagem de Chihiro</h1>
+            <p class="movie-year-director">2001 • Direção: Hayao Miyazaki</p>
+            
+            <p class="movie-desc">
+                Chihiro é uma garota de 10 anos que, durante a mudança de sua família, acaba entrando em um misterioso mundo espiritual cheio de deuses, espíritos e criaturas mágicas.
+                <br><br>
+                Quando seus pais são transformados em porcos após comerem em um banquete encantado, Chihiro precisa encontrar coragem para salvá-los e sobreviver nesse novo mundo.
+                <br><br>
+                Para isso, ela começa a trabalhar em uma casa de banhos administrada pela poderosa bruxa Yubaba, onde conhece aliados inesperados como Haku e o enigmático Sem-Face.
+                <br><br>
+                Ao longo de sua jornada, Chihiro amadurece, descobre sua força interior e aprende o valor da coragem, da empatia e da identidade.
+                <br><br>
+                <strong>A Viagem de Chihiro</strong> é uma obra-prima do Studio Ghibli, vencedora do Oscar de Melhor Animação, encantando gerações com sua narrativa mágica e profundamente simbólica.
+            </p>
+            
+            <button class="back-btn" onclick="window.location.href='../index.html'">
+                ← Voltar para todos os filmes
+            </button>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-left">
+                <h3>Mundo Ghibli</h3>
+                <p>Onde o vento conta histórias e a imaginação voa livre.</p>
+            </div>
+            
+            <div class="footer-center">
+                <div style="margin-top: 15px; font-size: 15.8px;">
+                    <strong>Meus Contatos:</strong><br><br>
+                    <a href="https://wa.me/5512997832290" target="_blank" style="color: var(--accent); text-decoration: none; display: block; margin-bottom: 10px;">
+                        📱 WhatsApp: (12) 99783-2290
+                    </a>
+                    <a href="https://www.instagram.com/k.albissu" target="_blank" style="color: var(--accent); text-decoration: none;">
+                        📸 Instagram: @k.albissu
+                    </a>
+                </div>
+            </div>
+
+            <div class="footer-right">
+                <a href="https://www.instagram.com/k.albissu" target="_blank" title="Instagram"></a>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            “Sempre acredite em algo bonito que ainda não existe.”<br>
+            © 2026 Mundo Ghibli • Inspirado nas obras do Studio Ghibli
+        </div>
+    </footer>
+
+    <button id="btn-top" class="btn-top" aria-label="Voltar ao topo">
+        ↑
+    </button>
+
+    <script src="../script.js"></script>
+</body>
+</html>
